@@ -10,10 +10,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.sebasgrdev.marvelwiki.ui.TopBar
+import com.sebasgrdev.marvelwiki.ui.screens.topbar.TopBar
 import com.sebasgrdev.marvelwiki.ui.screens.CharactersScreen
 import com.sebasgrdev.marvelwiki.ui.theme.MarvelWikiTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +25,6 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = { TopBar() }) { innerPadding ->
-
                     CharactersScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     MarvelWikiTheme {

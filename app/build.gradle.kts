@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -30,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -60,6 +62,22 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.gson)
+    implementation(libs.glide)
+    implementation(libs.androidx.lifecycle.viewmodel.compose.v261)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.retrofit2.kotlin.coroutines.adapter)
+    implementation (libs.androidx.room.ktx)
+    kapt (libs.androidx.room.compiler)
+    implementation(libs.coil.compose)
+
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose.v100)
+    kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,8 +1,9 @@
-package com.sebasgrdev.marvelwiki.ui
+package com.sebasgrdev.marvelwiki.ui.screens.topbar
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -16,15 +17,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBarDetail() {
     TopAppBar(
         title = {
             Text(
-                text = "Personajes",
+                text = "Nombre del personaje",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
@@ -37,17 +40,10 @@ fun TopBar() {
         ),
         navigationIcon = {
             IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Menu, contentDescription = "", tint = Color.White)
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "", tint = Color.White)
             }
         },
         actions = {
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Filled.Brightness4,
-                    contentDescription = "",
-                    tint = Color.White
-                )
-            }
             IconButton(onClick = { }) {
                 Icon(imageVector = Icons.Filled.Search, contentDescription = "", tint = Color.White)
             }
