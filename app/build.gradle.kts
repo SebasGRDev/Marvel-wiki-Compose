@@ -74,6 +74,7 @@ dependencies {
     implementation (libs.androidx.room.ktx)
     kapt (libs.androidx.room.compiler)
     implementation(libs.coil.compose)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose.v100)

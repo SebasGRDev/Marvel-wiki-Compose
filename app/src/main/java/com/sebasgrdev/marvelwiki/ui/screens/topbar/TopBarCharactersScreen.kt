@@ -24,7 +24,7 @@ fun TopBar() {
     TopAppBar(
         title = {
             Text(
-                text = "Personajes",
+                text = "Personajes de MARVEL",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
@@ -35,11 +35,6 @@ fun TopBar() {
             containerColor = Color.Red,
             titleContentColor = Color.White
         ),
-        navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Menu, contentDescription = "", tint = Color.White)
-            }
-        },
         actions = {
             IconButton(onClick = { }) {
                 Icon(
@@ -47,9 +42,6 @@ fun TopBar() {
                     contentDescription = "",
                     tint = Color.White
                 )
-            }
-            IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = "", tint = Color.White)
             }
         }
     )

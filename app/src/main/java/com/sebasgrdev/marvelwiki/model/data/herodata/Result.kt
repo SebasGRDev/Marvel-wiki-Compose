@@ -23,7 +23,9 @@ data class Result(
             thumbnailExt = thumbnail.extension,
             comics = comics.items.map {
                 it.name
-            }
+                it.resourceURI
+            },
+            urls = urls
         )
     }
 }
