@@ -1,6 +1,7 @@
 package com.sebasgrdev.marvelwiki.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +56,9 @@ fun DetailScreen(
     urls: List<Url>
 ) {
     val state by viewModel.comicValue.collectAsState()
+    var isLoanding by remember {
+        mutableStateOf(true)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.getDetailComic(characterId)
@@ -77,7 +84,37 @@ fun DetailScreen(
             modifier = Modifier.height(8.dp),
             color = MaterialTheme.colorScheme.onSurface
         )
-        SuggestionsCards(state)
+        when (state.isLoanding) {
+            true -> {
+                isLoanding = true
+                IsDetailShimmerEffect(modifier)
+            }
+
+            false -> {
+                isLoanding = false
+                SuggestionsCards(state)
+            }
+        }
+    }
+}
+
+@Composable
+fun IsDetailShimmerEffect(modifier: Modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(150.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(10) { comic ->
+            Card(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(200.dp)
+                    .shimmerEffect()
+            ) {
+                Box(Modifier.fillMaxSize().height(200.dp).shimmerEffect())
+            }
+        }
     }
 }
 
