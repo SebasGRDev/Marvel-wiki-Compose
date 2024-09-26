@@ -130,8 +130,9 @@ fun ComicItem(comic: Comic) {
             .width(150.dp)
             .height(200.dp)
     ) {
+        val imageComicUrl = "${comic.thumbnail}.${comic.thumbnailExt}"
         AsyncImage(
-            model = "${comic.thumbnail?.path}.${comic.thumbnail?.extension}",
+            model = imageComicUrl,
             contentDescription = comic.title,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -182,10 +183,5 @@ fun DateText(datePublish: Any) {
         )
     }
 
-}
-
-@Composable
-fun ComicText(comic: String) {
-    Text(text = comic, fontSize = 24.sp, fontWeight = FontWeight.Bold)
 }
 

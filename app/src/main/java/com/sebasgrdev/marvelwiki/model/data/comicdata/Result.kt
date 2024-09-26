@@ -39,8 +39,9 @@ data class Result(
             id = id,
             title = title,
             resourceURI = resourceURI,
-            thumbnail = thumbnail,
-            date = dates
+            thumbnail = thumbnail.path,
+            date = dates,
+            thumbnailExt = thumbnail.extension
         )
     }
 }

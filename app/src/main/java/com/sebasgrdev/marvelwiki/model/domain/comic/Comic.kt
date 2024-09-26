@@ -11,6 +11,7 @@ data class Comic(
     val id: Int,
     val title: String,
     val resourceURI: String,
-    val thumbnail: Thumbnail?,
+    val thumbnail: String?,
+    val thumbnailExt: String?,
     val date: List<Date>
 )

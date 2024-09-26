@@ -52,8 +52,8 @@ class CharactersViewModel @Inject constructor(
                                 Character(
                                     id = character.id,
                                     name = character.name,
-                                    thumbnail = character.thumbnail.substringBeforeLast("."), // Extract path
-                                    thumbnailExt = character.thumbnail.substringAfterLast("."), // Extract extension
+                                    thumbnail = "${character.thumbnail}.${character.thumbnailExt}",
+                                    thumbnailExt = character.thumbnailExt,
                                     comics = emptyList(),
                                     urls = emptyList()
                                 )
@@ -74,12 +74,12 @@ class CharactersViewModel @Inject constructor(
         } else {
             val dbCharacters = characterDao.getAllCharacters()
             if (dbCharacters.isNotEmpty()) {
-                val characterList = dbCharacters.map { entity ->
+                val characterList = dbCharacters.map { character ->
                     Character(
-                        id = entity.id,
-                        name = entity.name,
-                        thumbnail = "${entity.thumbnail}.${entity.thumbnailExt}",
-                        thumbnailExt = "",
+                        id = character.id,
+                        name = character.name,
+                        thumbnail = "${character.thumbnail}.${character.thumbnailExt}",
+                        thumbnailExt = character.thumbnailExt,
                         comics = emptyList(),
                         urls = emptyList()
 
@@ -105,16 +105,15 @@ class CharactersViewModel @Inject constructor(
                                 Comic(
                                     id = comic.id,
                                     title = comic.title,
-                                    thumbnail = comic.thumbnail,
+                                    thumbnail = "${comic.thumbnail}.${comic.thumbnailExt}",
+                                    thumbnailExt = comic.thumbnailExt,
                                     date = comic.date,
                                     resourceURI = comic.resourceURI
-
                                 )
                             )
 
                         }
                     }
-
                     is Response.Loanding -> {
                         comicValue.value = ComicListState(isLoanding = true)
                     }
@@ -132,9 +131,10 @@ class CharactersViewModel @Inject constructor(
                     Comic(
                         id = comic.id,
                         title = comic.title,
-                        thumbnail = comic.thumbnail,
+                        thumbnail = "${comic.thumbnail}.${comic.thumbnailExt}",
                         date = comic.date,
-                        resourceURI = comic.resourceURI
+                        resourceURI = comic.resourceURI,
+                        thumbnailExt = comic.thumbnailExt
                     )
                 }
                 comicValue.value = ComicListState(comicList = comicList)
