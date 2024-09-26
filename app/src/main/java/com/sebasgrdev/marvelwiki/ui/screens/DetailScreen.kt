@@ -96,7 +96,7 @@ fun SuggestionsCards(state: ComicListState) {
 
 @Composable
 fun ComicTitle(state: ComicListState) {
-    val comicTitle = state.comicList.firstOrNull()?.title ?: "Comic: Data found :("
+    val comicTitle = state.comicList.firstOrNull()?.title ?: "Comic: Data found"
     if (comicTitle.isNotEmpty()) {
         Text(text = comicTitle)
     }
@@ -157,7 +157,7 @@ fun SuggestionsTextTitle() {
 
 @Composable
 fun LinkText(urls: List<Url>) {
-    val firstUrl = urls.firstOrNull()?.url ?: "Link: Data found :("
+    val firstUrl = urls.firstOrNull()?.url ?: "Link: Data found"
     Row {
         Icon(
             imageVector = Icons.Filled.Link,
@@ -178,13 +178,13 @@ fun LinkText(urls: List<Url>) {
 
 @Composable
 fun DateText(state: ComicListState) {
-    val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: "Date: Data found :("
+    val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: "Date: Data found"
     val date = if (comicDate.toString().isNotEmpty()) {
         val pattern = """date=(\d{4}-\d{2}-\d{2})""".toRegex()
         val matchResult = pattern.find(comicDate.toString())
         matchResult?.groupValues?.get(1) ?: ""
     } else {
-        ""
+        "Data found"
     }
     Row {
         Text(text = "PUBLISHED: ", fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface)
