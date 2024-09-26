@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.sebasgrdev.marvelwiki.model.data.herodata.Url
 import com.sebasgrdev.marvelwiki.model.domain.comic.Comic
+import com.sebasgrdev.marvelwiki.ui.Comiclist.ComicListState
 import com.sebasgrdev.marvelwiki.viewmodel.CharactersViewModel
 
 @Composable
@@ -50,7 +51,7 @@ fun DetailScreen(
     comics: List<String>,
     urls: List<Url>
 ) {
-    val state by viewModel._comicValue.collectAsState()
+    val state by viewModel.comicValue.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getDetailComic(characterId)
@@ -61,66 +62,68 @@ fun DetailScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        AsyncImage(
-            model = "$thumbnail.$thumbnailExt",
-            contentDescription = name,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(130.dp)
-                .clip(
-                    CircleShape
-                ),
-        )
-
+        CharacterImage(name, thumbnail, thumbnailExt)
         Spacer(Modifier.height(16.dp))
-        Text(
-            text = name,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-
-        val comicTitle = state.comicList.firstOrNull()?.title ?: ""
-
-        if (comicTitle.isNotEmpty()) {
-            Spacer(Modifier.height(8.dp))
-            Text(text = comicTitle)
-        }
-
+        CharacterName(name)
         Spacer(Modifier.height(8.dp))
-        val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: ""
-        val date = if (comicDate.toString().isNotEmpty()) {
-            val pattern = """date=(\d{4}-\d{2}-\d{2})""".toRegex()
-            val matchResult = pattern.find(comicDate.toString())
-            matchResult?.groupValues?.get(1) ?: ""
-        } else {
-            ""
-        }
-        DateText(date)
-
-
-        val firstUrl = urls.firstOrNull()?.url ?: ""
+        ComicTitle(state)
         Spacer(Modifier.height(8.dp))
-        LinkText(firstUrl)
-
+        DateText(state)
+        Spacer(Modifier.height(8.dp))
+        LinkText(urls)
         Spacer(Modifier.height(16.dp))
-        SuggestionsText()
+        SuggestionsTextTitle()
         HorizontalDivider(
             modifier = Modifier.height(8.dp),
             color = MaterialTheme.colorScheme.onSurface
         )
-
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(150.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(state.comicList) { comic ->
-                ComicItem(comic = comic)
-            }
-        }
-
+        SuggestionsCards(state)
     }
+}
+
+@Composable
+fun SuggestionsCards(state: ComicListState) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(150.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(state.comicList) { comic ->
+            ComicItem(comic = comic)
+        }
+    }
+}
+
+@Composable
+fun ComicTitle(state: ComicListState) {
+    val comicTitle = state.comicList.firstOrNull()?.title ?: "Comic: Data found :("
+    if (comicTitle.isNotEmpty()) {
+        Text(text = comicTitle)
+    }
+}
+
+@Composable
+fun CharacterName(name: String) {
+    Text(
+        text = name,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurface
+    )
+}
+
+@Composable
+fun CharacterImage(name: String, thumbnail: String, thumbnailExt: String) {
+    AsyncImage(
+        model = "$thumbnail.$thumbnailExt",
+        contentDescription = name,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(130.dp)
+            .clip(
+                CircleShape
+            ),
+    )
 }
 
 @Composable
@@ -141,7 +144,7 @@ fun ComicItem(comic: Comic) {
 }
 
 @Composable
-fun SuggestionsText() {
+fun SuggestionsTextTitle() {
     Text(
         text = "SUGERENCIAS",
         fontSize = 24.sp,
@@ -153,7 +156,8 @@ fun SuggestionsText() {
 }
 
 @Composable
-fun LinkText(link: String) {
+fun LinkText(urls: List<Url>) {
+    val firstUrl = urls.firstOrNull()?.url ?: "Link: Data found :("
     Row {
         Icon(
             imageVector = Icons.Filled.Link,
@@ -164,7 +168,7 @@ fun LinkText(link: String) {
             tint = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = link,
+            text = firstUrl,
             fontSize = 16.sp,
             modifier = Modifier.align(Alignment.CenterVertically),
             color = MaterialTheme.colorScheme.onSurface
@@ -173,15 +177,22 @@ fun LinkText(link: String) {
 }
 
 @Composable
-fun DateText(datePublish: Any) {
+fun DateText(state: ComicListState) {
+    val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: "Date: Data found :("
+    val date = if (comicDate.toString().isNotEmpty()) {
+        val pattern = """date=(\d{4}-\d{2}-\d{2})""".toRegex()
+        val matchResult = pattern.find(comicDate.toString())
+        matchResult?.groupValues?.get(1) ?: ""
+    } else {
+        ""
+    }
     Row {
         Text(text = "PUBLISHED: ", fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface)
         Text(
-            text = datePublish.toString(),
+            text = date,
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurface
         )
     }
-
 }
 
