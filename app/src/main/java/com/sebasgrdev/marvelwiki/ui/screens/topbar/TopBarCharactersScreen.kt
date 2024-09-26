@@ -34,14 +34,6 @@ fun TopBar() {
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
-        actions = {
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Filled.Brightness4,
-                    contentDescription = "",
-                    tint = Color.White
-                )
-            }
-        }
+
     )
 }
