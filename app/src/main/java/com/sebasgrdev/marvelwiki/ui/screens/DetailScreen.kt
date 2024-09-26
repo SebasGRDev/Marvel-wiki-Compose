@@ -51,7 +51,7 @@ fun DetailScreen(
     comics: List<String>,
     urls: List<Url>
 ) {
-    val state by viewModel._comicValue.collectAsState()
+    val state by viewModel.comicValue.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getDetailComic(characterId)
@@ -96,7 +96,7 @@ fun SuggestionsCards(state: ComicListState) {
 
 @Composable
 fun ComicTitle(state: ComicListState) {
-    val comicTitle = state.comicList.firstOrNull()?.title ?: ""
+    val comicTitle = state.comicList.firstOrNull()?.title ?: "Comic: Data found :("
     if (comicTitle.isNotEmpty()) {
         Text(text = comicTitle)
     }
@@ -157,7 +157,7 @@ fun SuggestionsTextTitle() {
 
 @Composable
 fun LinkText(urls: List<Url>) {
-    val firstUrl = urls.firstOrNull()?.url ?: ""
+    val firstUrl = urls.firstOrNull()?.url ?: "Link: Data found :("
     Row {
         Icon(
             imageVector = Icons.Filled.Link,
@@ -178,7 +178,7 @@ fun LinkText(urls: List<Url>) {
 
 @Composable
 fun DateText(state: ComicListState) {
-    val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: ""
+    val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: "Date: Data found :("
     val date = if (comicDate.toString().isNotEmpty()) {
         val pattern = """date=(\d{4}-\d{2}-\d{2})""".toRegex()
         val matchResult = pattern.find(comicDate.toString())
@@ -194,6 +194,5 @@ fun DateText(state: ComicListState) {
             color = MaterialTheme.colorScheme.onSurface
         )
     }
-
 }
 

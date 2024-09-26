@@ -24,7 +24,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,6 +33,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import com.sebasgrdev.marvelwiki.model.domain.character.Character
+import com.sebasgrdev.marvelwiki.ui.CharacterList.CharacterListState
 import com.sebasgrdev.marvelwiki.viewmodel.CharactersViewModel
 import java.net.URLEncoder
 
@@ -43,7 +43,21 @@ fun CharactersScreen(
     viewModel: CharactersViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    val state by viewModel._characterValue.collectAsState()
+    val state by viewModel.characterValue.collectAsState()
+
+    CharactersCards(modifier, state, navController)
+
+    LaunchedEffect(Unit) {
+        viewModel.getAllCharacters(0)
+    }
+}
+
+@Composable
+fun CharactersCards(
+    modifier: Modifier,
+    state: CharacterListState,
+    navController: NavHostController
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -53,10 +67,6 @@ fun CharactersScreen(
         items(state.characterList) { hero ->
             ItemHero(hero = hero, navController = navController)
         }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.getAllCharacters(0)
     }
 }
 

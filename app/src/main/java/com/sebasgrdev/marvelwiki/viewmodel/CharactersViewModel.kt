@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,11 +27,11 @@ class CharactersViewModel @Inject constructor(
     private val application: Application
 ) : ViewModel() {
 
-    private val characterValue = MutableStateFlow(CharacterListState())
-    var _characterValue: StateFlow<CharacterListState> = characterValue
+    private val _characterValue = MutableStateFlow<CharacterListState>(CharacterListState())
+    val characterValue: StateFlow<CharacterListState> = _characterValue.asStateFlow()
 
-    private val comicValue = MutableStateFlow(ComicListState())
-    var _comicValue: StateFlow<ComicListState> = comicValue
+    private val _comicValue = MutableStateFlow(ComicListState())
+    var comicValue: StateFlow<ComicListState> = _comicValue
 
     private var originalCharacters: List<Character> = emptyList()
     private var originalComic: List<Comic> = emptyList()
@@ -43,7 +44,7 @@ class CharactersViewModel @Inject constructor(
             charactersUseCase(offset).collect {
                 when (it) {
                     is Response.Success -> {
-                        characterValue.value =
+                        _characterValue.value =
                             CharacterListState(characterList = it.data ?: emptyList())
                         originalCharacters = it.data ?: emptyList()
 
@@ -62,11 +63,11 @@ class CharactersViewModel @Inject constructor(
                     }
 
                     is Response.Loanding -> {
-                        characterValue.value = CharacterListState(isLoanding = true)
+                        _characterValue.value = CharacterListState(isLoanding = true)
                     }
 
                     is Response.Error -> {
-                        characterValue.value =
+                        _characterValue.value =
                             CharacterListState(error = it.message ?: "An Unexpected Error")
                     }
                 }
@@ -85,9 +86,9 @@ class CharactersViewModel @Inject constructor(
 
                     )
                 }
-                characterValue.value = CharacterListState(characterList = characterList)
+                _characterValue.value = CharacterListState(characterList = characterList)
             } else {
-                characterValue.value =
+                _characterValue.value =
                     CharacterListState(error = "No data available. Please connect to the internet.")
             }
         }
@@ -98,7 +99,7 @@ class CharactersViewModel @Inject constructor(
             comicUseCase(characterId).collect {
                 when (it) {
                     is Response.Success -> {
-                        comicValue.value = ComicListState(comicList = it.data ?: emptyList())
+                        _comicValue.value = ComicListState(comicList = it.data ?: emptyList())
                         originalComic = it.data ?: emptyList()
                         originalComic.forEach { comic ->
                             comicDao.insertComics(
@@ -115,11 +116,11 @@ class CharactersViewModel @Inject constructor(
                         }
                     }
                     is Response.Loanding -> {
-                        comicValue.value = ComicListState(isLoanding = true)
+                        _comicValue.value = ComicListState(isLoanding = true)
                     }
 
                     is Response.Error -> {
-                        comicValue.value =
+                        _comicValue.value =
                             ComicListState(error = it.message ?: "An Unexpected Error")
                     }
                 }
@@ -137,9 +138,9 @@ class CharactersViewModel @Inject constructor(
                         thumbnailExt = comic.thumbnailExt
                     )
                 }
-                comicValue.value = ComicListState(comicList = comicList)
+                _comicValue.value = ComicListState(comicList = comicList)
             } else {
-                comicValue.value = ComicListState(error = "No comics available.")
+                _comicValue.value = ComicListState(error = "No comics available.")
             }
         }
     }
