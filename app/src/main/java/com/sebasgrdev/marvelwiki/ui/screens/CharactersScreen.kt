@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -62,7 +63,7 @@ fun CharactersScreen(
 @Composable
 fun ItemHero(hero: Character, navController: NavHostController) {
     Card(
-        border = BorderStroke(2.dp, Color.Red), modifier = Modifier
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary), modifier = Modifier
             .width(200.dp)
             .height(300.dp)
     ) {
@@ -89,6 +90,7 @@ fun ItemHero(hero: Character, navController: NavHostController) {
                     .padding(8.dp),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             TextButton(
                 onClick = {
@@ -106,8 +108,12 @@ fun ItemHero(hero: Character, navController: NavHostController) {
                 },
                 modifier = Modifier.align(Alignment.End),
             ) {
-                Text(text = "Ver mas ")
-                Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "")
+                Text(text = "Ver mas ", color = MaterialTheme.colorScheme.primary)
+                Icon(
+                    imageVector = Icons.Filled.ArrowForward,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }

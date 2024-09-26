@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -75,7 +76,8 @@ fun DetailScreen(
         Text(
             text = name,
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         val comicTitle = state.comicList.firstOrNull()?.title ?: ""
@@ -103,12 +105,16 @@ fun DetailScreen(
 
         Spacer(Modifier.height(16.dp))
         SuggestionsText()
-        HorizontalDivider(modifier = Modifier.height(8.dp))
+        HorizontalDivider(
+            modifier = Modifier.height(8.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),) {
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
             items(state.comicList) { comic ->
                 ComicItem(comic = comic)
             }
@@ -140,7 +146,8 @@ fun SuggestionsText() {
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -152,17 +159,27 @@ fun LinkText(link: String) {
             contentDescription = "Link",
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .padding(end = 8.dp)
+                .padding(end = 8.dp),
+            tint = MaterialTheme.colorScheme.primary
         )
-        Text(text = link, fontSize = 16.sp, modifier = Modifier.align(Alignment.CenterVertically))
+        Text(
+            text = link,
+            fontSize = 16.sp,
+            modifier = Modifier.align(Alignment.CenterVertically),
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
 @Composable
 fun DateText(datePublish: Any) {
     Row {
-        Text(text = "PUBLISHED: ", fontSize = 16.sp)
-        Text(text = datePublish.toString(), fontSize = 16.sp)
+        Text(text = "PUBLISHED: ", fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface)
+        Text(
+            text = datePublish.toString(),
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 
 }
