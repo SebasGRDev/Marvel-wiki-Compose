@@ -1,7 +1,7 @@
 package com.sebasgrdev.marvelwiki.use_cases
 
 import com.sebasgrdev.marvelwiki.model.domain.CharactersRepository
-import com.sebasgrdev.marvelwiki.model.domain.Comic
+import com.sebasgrdev.marvelwiki.model.domain.comic.Comic
 import com.sebasgrdev.marvelwiki.utils.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

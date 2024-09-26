@@ -1,7 +1,7 @@
 package com.sebasgrdev.marvelwiki.use_cases
 
 import coil.network.HttpException
-import com.sebasgrdev.marvelwiki.model.domain.Character
+import com.sebasgrdev.marvelwiki.model.domain.character.Character
 import com.sebasgrdev.marvelwiki.model.domain.CharactersRepository
 import com.sebasgrdev.marvelwiki.utils.Response
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
 package com.sebasgrdev.marvelwiki.model.data.herodata
 
-import com.sebasgrdev.marvelwiki.model.domain.Character
+import com.sebasgrdev.marvelwiki.model.domain.character.Character
 
 data class Result(
     val comics: Comics,

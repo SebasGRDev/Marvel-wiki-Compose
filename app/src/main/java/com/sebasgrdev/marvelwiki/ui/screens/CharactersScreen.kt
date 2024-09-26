@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.google.gson.Gson
-import com.sebasgrdev.marvelwiki.model.domain.Character
+import com.sebasgrdev.marvelwiki.model.domain.character.Character
 import com.sebasgrdev.marvelwiki.viewmodel.CharactersViewModel
 import java.net.URLEncoder
 

@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.sebasgrdev.marvelwiki.model.data.herodata.Url
-import com.sebasgrdev.marvelwiki.model.domain.Comic
+import com.sebasgrdev.marvelwiki.model.domain.comic.Comic
 import com.sebasgrdev.marvelwiki.viewmodel.CharactersViewModel
 
 @Composable
@@ -79,14 +79,12 @@ fun DetailScreen(
         )
 
         val comicTitle = state.comicList.firstOrNull()?.title ?: ""
-        // Mostrar el primer cómic donde apareció (si está disponible)
+
         if (comicTitle.isNotEmpty()) {
             Spacer(Modifier.height(8.dp))
             Text(text = comicTitle)
         }
 
-        // Mostrar la fecha de publicación (puedes obtenerla de la API o de tus datos)
-        // ... (Lógica para obtener la fecha de publicación)
         Spacer(Modifier.height(8.dp))
         val comicDate = state.comicList.firstOrNull()?.date?.firstOrNull() ?: ""
         val date = if (comicDate.toString().isNotEmpty()) {
@@ -98,7 +96,7 @@ fun DetailScreen(
         }
         DateText(date)
 
-        // Mostrar los enlaces relacionados
+
         val firstUrl = urls.firstOrNull()?.url ?: ""
         Spacer(Modifier.height(8.dp))
         LinkText(firstUrl)
@@ -127,7 +125,7 @@ fun ComicItem(comic: Comic) {
             .height(200.dp)
     ) {
         AsyncImage(
-            model = "${comic.thumbnail.path}.${comic.thumbnail.extension}",
+            model = "${comic.thumbnail?.path}.${comic.thumbnail?.extension}",
             contentDescription = comic.title,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
