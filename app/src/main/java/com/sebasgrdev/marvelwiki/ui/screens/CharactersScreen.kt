@@ -2,8 +2,12 @@ package com.sebasgrdev.marvelwiki.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +42,7 @@ import coil.compose.AsyncImage
 import com.google.gson.Gson
 import com.sebasgrdev.marvelwiki.model.domain.character.Character
 import com.sebasgrdev.marvelwiki.viewmodel.CharactersViewModel
+import okhttp3.internal.wait
 import java.net.URLEncoder
 
 @Composable
@@ -44,19 +52,57 @@ fun CharactersScreen(
     navController: NavHostController
 ) {
     val state by viewModel._characterValue.collectAsState()
+    var isLoanding by remember {
+        mutableStateOf(true)
+    }
+
+
+    LaunchedEffect(Unit) {
+        viewModel.getAllCharacters(0)
+    }
+
+    when (state.isLoanding) {
+        true -> {
+            isLoanding = true
+            IsShimmerEffect(modifier)
+        }
+
+        false -> {
+            isLoanding = false
+
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(150.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = modifier.padding(8.dp)
+            ) {
+                items(state.characterList) { hero ->
+                    ItemHero(hero = hero, navController = navController)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun IsShimmerEffect(modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.padding(8.dp)
+        modifier = modifier
+            .padding(8.dp)
     ) {
-        items(state.characterList) { hero ->
-            ItemHero(hero = hero, navController = navController)
+        items(16) {
+            Card(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(300.dp)
+                    .shimmerEffect()
+            ) {
+                Box(Modifier.fillMaxSize().height(200.dp).shimmerEffect())
+            }
         }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.getAllCharacters(0)
     }
 }
 
